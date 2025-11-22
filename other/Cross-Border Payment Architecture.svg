@@ -1,0 +1,243 @@
+<svg width="900" height="1100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 定义渐变和滤镜 -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f4f7f9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e6eef5;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="layerHeader" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2c3e50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#34495e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="boxGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f0f8ff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="coreGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ecf0f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#bdc3c7;stop-opacity:1" />
+    </linearGradient>
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="2" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- 动画路径定义 -->
+    <style>
+      .flow-line {
+        stroke: #3498db;
+        stroke-width: 2;
+        stroke-dasharray: 10, 10;
+        animation: dash 2s linear infinite;
+        fill: none;
+      }
+      .flow-line-return {
+        stroke: #e74c3c;
+        stroke-width: 2;
+        stroke-dasharray: 10, 10;
+        animation: dash-rev 2s linear infinite;
+        fill: none;
+      }
+      @keyframes dash {
+        to { stroke-dashoffset: -40; }
+      }
+      @keyframes dash-rev {
+        to { stroke-dashoffset: 40; }
+      }
+      text { font-family: 'Segoe UI', Arial, sans-serif; }
+      .title { font-size: 24px; font-weight: bold; fill: #2c3e50; }
+      .layer-title { font-size: 14px; font-weight: bold; fill: #fff; }
+      .box-text { font-size: 12px; fill: #333; text-anchor: middle; }
+      .sub-text { font-size: 10px; fill: #666; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="900" height="1100" fill="url(#bgGradient)" />
+  <text x="450" y="40" text-anchor="middle" class="title">跨境支付平台全景架构图 (Cross-Border Payment Architecture)</text>
+
+  <!-- 1. 接入渠道层 (Channels) -->
+  <g transform="translate(50, 80)">
+    <rect x="0" y="0" width="800" height="80" rx="5" fill="none" stroke="#bdc3c7" stroke-dasharray="5,5"/>
+    <text x="20" y="20" font-weight="bold" fill="#7f8c8d">用户/商户端 (Client Layer)</text>
+    
+    <rect x="50" y="30" width="100" height="40" rx="5" fill="#fff" filter="url(#dropShadow)"/>
+    <text x="100" y="55" class="box-text">Mobile App</text>
+    
+    <rect x="200" y="30" width="100" height="40" rx="5" fill="#fff" filter="url(#dropShadow)"/>
+    <text x="250" y="55" class="box-text">Web Checkout</text>
+    
+    <rect x="350" y="30" width="100" height="40" rx="5" fill="#fff" filter="url(#dropShadow)"/>
+    <text x="400" y="55" class="box-text">Merchant API</text>
+    
+    <rect x="500" y="30" width="100" height="40" rx="5" fill="#fff" filter="url(#dropShadow)"/>
+    <text x="550" y="55" class="box-text">POS Terminal</text>
+  </g>
+
+  <!-- 箭头向下 -->
+  <path d="M450 160 L450 190" stroke="#34495e" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 2. 网关与安全层 (Gateway & Security) -->
+  <g transform="translate(50, 190)">
+    <rect x="0" y="0" width="800" height="60" rx="5" fill="url(#layerHeader)"/>
+    <text x="400" y="35" text-anchor="middle" class="layer-title">API Gateway &amp; WAF (负载均衡、鉴权、限流、防重放)</text>
+  </g>
+
+  <!-- 3. 业务聚合层 (Business Aggregation) -->
+  <g transform="translate(50, 270)">
+    <rect x="0" y="0" width="800" height="120" rx="5" fill="#ecf0f1" stroke="#bdc3c7"/>
+    <rect x="0" y="0" width="100" height="120" rx="5" fill="#3498db"/>
+    <text x="50" y="65" fill="#fff" text-anchor="middle" transform="rotate(-90, 50, 65)">业务产品</text>
+    
+    <g transform="translate(120, 20)">
+      <rect x="0" y="0" width="150" height="80" rx="5" fill="url(#boxGradient)" filter="url(#dropShadow)"/>
+      <text x="75" y="35" class="box-text" font-weight="bold">全球收单</text>
+      <text x="75" y="55" class="sub-text">Pay-in / Checkout</text>
+    </g>
+    
+    <g transform="translate(290, 20)">
+      <rect x="0" y="0" width="150" height="80" rx="5" fill="url(#boxGradient)" filter="url(#dropShadow)"/>
+      <text x="75" y="35" class="box-text" font-weight="bold">跨境下发</text>
+      <text x="75" y="55" class="sub-text">Pay-out / Remittance</text>
+    </g>
+    
+    <g transform="translate(460, 20)">
+      <rect x="0" y="0" width="150" height="80" rx="5" fill="url(#boxGradient)" filter="url(#dropShadow)"/>
+      <text x="75" y="35" class="box-text" font-weight="bold">货币兑换</text>
+      <text x="75" y="55" class="sub-text">FX Trading</text>
+    </g>
+
+     <g transform="translate(630, 20)">
+      <rect x="0" y="0" width="140" height="80" rx="5" fill="url(#boxGradient)" filter="url(#dropShadow)"/>
+      <text x="70" y="35" class="box-text" font-weight="bold">虚拟卡发卡</text>
+      <text x="70" y="55" class="sub-text">Issuing</text>
+    </g>
+  </g>
+
+  <!-- 4. 核心支付引擎层 (Core Payment Engine) -->
+  <g transform="translate(50, 410)">
+    <rect x="0" y="0" width="800" height="280" rx="5" fill="#fff" stroke="#2c3e50" stroke-width="2"/>
+    <text x="20" y="30" font-weight="bold" font-size="16" fill="#2c3e50">核心支付引擎 (Core Engine)</text>
+    
+    <!-- 内部模块 -->
+    <g transform="translate(30, 50)">
+      <!-- 第一列：交易处理 -->
+      <rect x="0" y="0" width="160" height="200" rx="5" fill="#fef9e7" stroke="#f1c40f"/>
+      <text x="80" y="25" class="box-text" font-weight="bold">交易中心</text>
+      <line x1="10" y1="35" x2="150" y2="35" stroke="#f1c40f" stroke-width="1"/>
+      <text x="80" y="60" class="sub-text">订单管理 (OMS)</text>
+      <text x="80" y="90" class="sub-text">支付路由 (Routing)</text>
+      <text x="80" y="120" class="sub-text">状态机 (State Machine)</text>
+      <text x="80" y="150" class="sub-text">费率计算 (Fees)</text>
+    </g>
+
+    <g transform="translate(210, 50)">
+      <!-- 第二列：风控合规 -->
+      <rect x="0" y="0" width="160" height="200" rx="5" fill="#f2dede" stroke="#e74c3c"/>
+      <text x="80" y="25" class="box-text" font-weight="bold">风控与合规 (Risk)</text>
+      <line x1="10" y1="35" x2="150" y2="35" stroke="#e74c3c" stroke-width="1"/>
+      <text x="80" y="60" class="sub-text">KYC / KYB</text>
+      <text x="80" y="90" class="sub-text">反洗钱 (AML/CTF)</text>
+      <text x="80" y="120" class="sub-text">反欺诈 (Fraud)</text>
+      <text x="80" y="150" class="sub-text">黑名单筛查 (Sanctions)</text>
+    </g>
+
+    <g transform="translate(390, 50)">
+      <!-- 第三列：账务外汇 -->
+      <rect x="0" y="0" width="160" height="200" rx="5" fill="#e8f8f5" stroke="#1abc9c"/>
+      <text x="80" y="25" class="box-text" font-weight="bold">账务与外汇</text>
+      <line x1="10" y1="35" x2="150" y2="35" stroke="#1abc9c" stroke-width="1"/>
+      <text x="80" y="60" class="sub-text">多币种账户 (Wallets)</text>
+      <text x="80" y="90" class="sub-text">实时汇率 (FX Rates)</text>
+      <text x="80" y="120" class="sub-text">会计分录 (Accounting)</text>
+      <text x="80" y="150" class="sub-text">头寸管理 (Position)</text>
+    </g>
+    
+    <g transform="translate(570, 50)">
+      <!-- 第四列：清结算 -->
+      <rect x="0" y="0" width="160" height="200" rx="5" fill="#eaf2f8" stroke="#3498db"/>
+      <text x="80" y="25" class="box-text" font-weight="bold">清结算中心</text>
+      <line x1="10" y1="35" x2="150" y2="35" stroke="#3498db" stroke-width="1"/>
+      <text x="80" y="60" class="sub-text">对账 (Reconciliation)</text>
+      <text x="80" y="90" class="sub-text">轧差 (Netting)</text>
+      <text x="80" y="120" class="sub-text">分润 (Profit Sharing)</text>
+      <text x="80" y="150" class="sub-text">报表生成 (Reporting)</text>
+    </g>
+  </g>
+
+  <!-- 5. 基础支撑层 (Infra) -->
+  <g transform="translate(50, 710)">
+    <rect x="0" y="0" width="800" height="80" rx="5" fill="#2c3e50"/>
+    <text x="400" y="25" fill="#fff" text-anchor="middle" font-weight="bold" font-size="14">基础支撑层 (Infrastructure &amp; Data)</text>
+    <g transform="translate(50, 35)">
+        <rect x="0" y="0" width="120" height="30" rx="3" fill="#95a5a6"/>
+        <text x="60" y="20" fill="#fff" text-anchor="middle" font-size="12">MySQL (Sharded)</text>
+    </g>
+    <g transform="translate(200, 35)">
+        <rect x="0" y="0" width="120" height="30" rx="3" fill="#95a5a6"/>
+        <text x="60" y="20" fill="#fff" text-anchor="middle" font-size="12">Redis / NoSQL</text>
+    </g>
+    <g transform="translate(350, 35)">
+        <rect x="0" y="0" width="120" height="30" rx="3" fill="#95a5a6"/>
+        <text x="60" y="20" fill="#fff" text-anchor="middle" font-size="12">Kafka / MQ</text>
+    </g>
+    <g transform="translate(500, 35)">
+        <rect x="0" y="0" width="120" height="30" rx="3" fill="#95a5a6"/>
+        <text x="60" y="20" fill="#fff" text-anchor="middle" font-size="12">HSM (加密机)</text>
+    </g>
+  </g>
+
+  <!-- 6. 外部渠道层 (External Network) -->
+  <g transform="translate(50, 810)">
+    <rect x="0" y="0" width="800" height="120" rx="5" fill="url(#bgGradient)" stroke="#7f8c8d" stroke-dasharray="5,5"/>
+    <text x="400" y="20" font-weight="bold" fill="#7f8c8d" text-anchor="middle">外部金融网络 (External Financial Networks)</text>
+    
+    <g transform="translate(50, 40)">
+      <rect x="0" y="0" width="150" height="60" rx="5" fill="#fff" stroke="#2980b9" stroke-width="2"/>
+      <text x="75" y="25" class="box-text" font-weight="bold">卡组织</text>
+      <text x="75" y="45" class="sub-text">Visa, MC, Amex</text>
+    </g>
+    
+    <g transform="translate(230, 40)">
+      <rect x="0" y="0" width="150" height="60" rx="5" fill="#fff" stroke="#8e44ad" stroke-width="2"/>
+      <text x="75" y="25" class="box-text" font-weight="bold">SWIFT / SEPA</text>
+      <text x="75" y="45" class="sub-text">International Wire</text>
+    </g>
+    
+    <g transform="translate(410, 40)">
+      <rect x="0" y="0" width="150" height="60" rx="5" fill="#fff" stroke="#27ae60" stroke-width="2"/>
+      <text x="75" y="25" class="box-text" font-weight="bold">本地支付 (LPM)</text>
+      <text x="75" y="45" class="sub-text">Alipay, WeChat, Pix</text>
+    </g>
+    
+    <g transform="translate(590, 40)">
+      <rect x="0" y="0" width="150" height="60" rx="5" fill="#fff" stroke="#d35400" stroke-width="2"/>
+      <text x="75" y="25" class="box-text" font-weight="bold">外汇/流动性</text>
+      <text x="75" y="45" class="sub-text">FX Providers, Banks</text>
+    </g>
+  </g>
+
+  <!-- 动态流向线条 -->
+  <!-- 支付流：User -> Gateway -> Core -> Channel -->
+  <path d="M450 120 L450 800" class="flow-line" />
+  
+  <!-- 资金/对账流：Channel -> Core -> User -->
+  <path d="M470 810 L470 410" class="flow-line-return" />
+
+  <!-- 图例 -->
+  <g transform="translate(700, 950)">
+    <text x="0" y="0" font-size="12" font-weight="bold">图例 (Legend):</text>
+    <line x1="0" y1="20" x2="50" y2="20" stroke="#3498db" stroke-width="2" stroke-dasharray="5,5"/>
+    <text x="60" y="25" font-size="10">支付请求流</text>
+    <line x1="0" y1="40" x2="50" y2="40" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5,5"/>
+    <text x="60" y="45" font-size="10">资金/信息回流</text>
+  </g>
+
+</svg>

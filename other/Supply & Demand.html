@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>经济学供需关系交互图 (SVG)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .chart-wrapper {
+            position: relative;
+        }
+
+        svg {
+            border: 1px solid #eee;
+            background-color: #fff;
+        }
+
+        .controls {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .control-group {
+            background: #fafafa;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .control-group h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .slider-row {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 8px;
+        }
+
+        label {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input[type=range] {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        /* SVG Elements Styling */
+        .axis {
+            stroke: #333;
+            stroke-width: 2;
+        }
+        
+        .grid {
+            stroke: #eee;
+            stroke-width: 1;
+        }
+
+        .curve-demand {
+            stroke: #007bff; /* Blue */
+            stroke-width: 3;
+            stroke-linecap: round;
+        }
+
+        .curve-supply {
+            stroke: #dc3545; /* Red */
+            stroke-width: 3;
+            stroke-linecap: round;
+        }
+
+        .equilibrium-dot {
+            fill: #28a745;
+            stroke: #fff;
+            stroke-width: 2;
+        }
+
+        .guide-line {
+            stroke: #28a745;
+            stroke-width: 1.5;
+            stroke-dasharray: 5, 5;
+        }
+
+        text {
+            font-family: sans-serif;
+            user-select: none;
+        }
+        
+        .axis-label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .curve-label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .value-display {
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>供需关系均衡模型 (Supply & Demand)</h2>
+
+    <div class="container">
+        <!-- 图表区域 -->
+        <div class="chart-wrapper">
+            <svg id="sdChart" width="500" height="400" viewBox="0 0 500 400">
+                <!-- 网格背景 (JS生成) -->
+                <g id="gridLines"></g>
+                
+                <!-- 坐标轴 -->
+                <line x1="50" y1="350" x2="480" y2="350" class="axis" marker-end="url(#arrow)" /> <!-- X轴 Q -->
+                <line x1="50" y1="350" x2="50" y2="20" class="axis" marker-end="url(#arrow)" />  <!-- Y轴 P -->
+                
+                <!-- 箭头定义 -->
+                <defs>
+                    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                        <path d="M0,0 L0,6 L9,3 z" fill="#333" />
+                    </marker>
+                </defs>
+
+                <!-- 标签 -->
+                <text x="480" y="345" class="axis-label" text-anchor="end">数量 (Q)</text>
+                <text x="60" y="30" class="axis-label" text-anchor="start">价格 (P)</text>
+
+                <!-- 曲线 -->
+                <line id="demandCurve" class="curve-demand" />
+                <text id="demandLabel" class="curve-label" fill="#007bff">D</text>
+
+                <line id="supplyCurve" class="curve-supply" />
+                <text id="supplyLabel" class="curve-label" fill="#dc3545">S</text>
+
+                <!-- 均衡点辅助线 -->
+                <line id="guideX" class="guide-line" />
+                <line id="guideY" class="guide-line" />
+                <circle id="equilibriumPoint" r="6" class="equilibrium-dot" />
+
+                <!-- 均衡数值显示 -->
+                <text id="priceText" x="40" y="0" text-anchor="end" font-size="12" fill="#28a745"></text>
+                <text id="qtyText" x="0" y="370" text-anchor="middle" font-size="12" fill="#28a745"></text>
+            </svg>
+        </div>
+
+        <!-- 控件区域 -->
+        <div class="controls">
+            <div class="control-group" style="border-left: 4px solid #007bff;">
+                <h4>需求端 (Demand)</h4>
+                <div class="slider-row">
+                    <label>需求水平 (截距) <span id="val_d_int" class="value-display"></span></label>
+                    <input type="range" id="d_intercept" min="100" max="300" value="250">
+                </div>
+                <div class="slider-row">
+                    <label>需求弹性 (斜率绝对值) <span id="val_d_slope" class="value-display"></span></label>
+                    <input type="range" id="d_slope" min="0.5" max="3.0" step="0.1" value="1.5">
+                    <small style="color:#999; font-size:10px;">越小越平缓(富有弹性)</small>
+                </div>
+            </div>
+
+            <div class="control-group" style="border-left: 4px solid #dc3545;">
+                <h4>供给端 (Supply)</h4>
+                <div class="slider-row">
+                    <label>供给水平 (截距/成本) <span id="val_s_int" class="value-display"></span></label>
+                    <input type="range" id="s_intercept" min="0" max="150" value="50">
+                </div>
+                <div class="slider-row">
+                    <label>供给弹性 (斜率) <span id="val_s_slope" class="value-display"></span></label>
+                    <input type="range" id="s_slope" min="0.5" max="3.0" step="0.1" value="1.2">
+                    <small style="color:#999; font-size:10px;">越小越平缓(富有弹性)</small>
+                </div>
+            </div>
+            
+            <div style="margin-top:10px; font-size:13px; color:#555;">
+                <div>均衡价格 (P*): <span id="res_p" style="font-weight:bold;"></span></div>
+                <div>均衡数量 (Q*): <span id="res_q" style="font-weight:bold;"></span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 配置参数
+        const margin = { top: 20, right: 20, bottom: 50, left: 50 };
+        const width = 500;
+        const height = 400;
+        const plotWidth = width - margin.left - margin.right;
+        const plotHeight = height - margin.top - margin.bottom;
+
+        // 缩放比例 (简单的线性映射)
+        // 假设 Q 范围 0-150, P 范围 0-300
+        const maxQ = 150;
+        const maxP = 300;
+
+        function scaleX(q) {
+            return margin.left + (q / maxQ) * plotWidth;
+        }
+
+        function scaleY(p) {
+            return height - margin.bottom - (p / maxP) * plotHeight;
+        }
+
+        // DOM 元素
+        const inputs = {
+            d_int: document.getElementById('d_intercept'),
+            d_slope: document.getElementById('d_slope'),
+            s_int: document.getElementById('s_intercept'),
+            s_slope: document.getElementById('s_slope')
+        };
+
+        const els = {
+            dLine: document.getElementById('demandCurve'),
+            sLine: document.getElementById('supplyCurve'),
+            dLabel: document.getElementById('demandLabel'),
+            sLabel: document.getElementById('supplyLabel'),
+            eqPoint: document.getElementById('equilibriumPoint'),
+            guideX: document.getElementById('guideX'),
+            guideY: document.getElementById('guideY'),
+            priceText: document.getElementById('priceText'),
+            qtyText: document.getElementById('qtyText'),
+            resP: document.getElementById('res_p'),
+            resQ: document.getElementById('res_q'),
+            valDisplays: {
+                d_int: document.getElementById('val_d_int'),
+                d_slope: document.getElementById('val_d_slope'),
+                s_int: document.getElementById('val_s_int'),
+                s_slope: document.getElementById('val_s_slope')
+            }
+        };
+
+        // 核心逻辑：更新图表
+        function updateChart() {
+            // 1. 获取参数
+            // 需求方程: P = a - bQ
+            const a = parseFloat(inputs.d_int.value); // 截距
+            const b = parseFloat(inputs.d_slope.value); // 斜率
+
+            // 供给方程: P = c + dQ
+            const c = parseFloat(inputs.s_int.value); // 截距
+            const d = parseFloat(inputs.s_slope.value); // 斜率
+
+            // 更新显示数值
+            els.valDisplays.d_int.innerText = a;
+            els.valDisplays.d_slope.innerText = b;
+            els.valDisplays.s_int.innerText = c;
+            els.valDisplays.s_slope.innerText = d;
+
+            // 2. 计算均衡点
+            // a - bQ = c + dQ => Q(b+d) = a - c => Q = (a-c)/(b+d)
+            let eqQ = (a - c) / (b + d);
+            let eqP = a - b * eqQ;
+
+            // 边界保护
+            if (eqQ < 0) eqQ = 0;
+            if (eqP < 0) eqP = 0;
+
+            // 3. 绘制需求曲线 (Line segment)
+            // 点1: Q=0, P=a
+            // 点2: P=0, Q=a/b
+            const d_x1 = scaleX(0);
+            const d_y1 = scaleY(a);
+            const d_x2_raw = a / b;
+            // 如果横轴超出画布，截断在 maxQ
+            let d_x2_final = d_x2_raw;
+            let d_y2_final = scaleY(0); 
+            
+            if (d_x2_raw > maxQ) {
+                d_x2_final = maxQ;
+                d_y2_final = scaleY(a - b * maxQ);
+            }
+
+            els.dLine.setAttribute('x1', d_x1);
+            els.dLine.setAttribute('y1', d_y1);
+            els.dLine.setAttribute('x2', scaleX(d_x2_final));
+            els.dLine.setAttribute('y2', d_y2_final);
+
+            // 标签位置
+            els.dLabel.setAttribute('x', scaleX(d_x2_final) - 10);
+            els.dLabel.setAttribute('y', d_y2_final - 10);
+
+
+            // 4. 绘制供给曲线
+            // 点1: Q=0, P=c
+            // 点2: Q=maxQ, P=c + d*maxQ
+            const s_x1 = scaleX(0);
+            const s_y1 = scaleY(c);
+            const s_x2 = scaleX(maxQ);
+            const s_y2 = scaleY(c + d * maxQ);
+
+            els.sLine.setAttribute('x1', s_x1);
+            els.sLine.setAttribute('y1', s_y1);
+            els.sLine.setAttribute('x2', s_x2);
+            els.sLine.setAttribute('y2', s_y2);
+
+            // 标签位置
+            els.sLabel.setAttribute('x', s_x2 - 20);
+            els.sLabel.setAttribute('y', s_y2 + 20);
+
+            // 5. 绘制均衡点和辅助线
+            const plotEqX = scaleX(eqQ);
+            const plotEqY = scaleY(eqP);
+
+            els.eqPoint.setAttribute('cx', plotEqX);
+            els.eqPoint.setAttribute('cy', plotEqY);
+
+            // 垂直辅助线 (连到Q轴)
+            els.guideY.setAttribute('x1', plotEqX);
+            els.guideY.setAttribute('y1', plotEqY);
+            els.guideY.setAttribute('x2', plotEqX);
+            els.guideY.setAttribute('y2', scaleY(0));
+
+            // 水平辅助线 (连到P轴)
+            els.guideX.setAttribute('x1', plotEqX);
+            els.guideX.setAttribute('y1', plotEqY);
+            els.guideX.setAttribute('x2', scaleX(0));
+            els.guideX.setAttribute('y2', plotEqY);
+
+            // 6. 更新文本
+            els.resP.innerText = eqP.toFixed(1);
+            els.resQ.innerText = eqQ.toFixed(1);
+
+            // 图表轴上的文本
+            els.priceText.setAttribute('y', plotEqY + 5); // 垂直居中
+            els.priceText.textContent = `P*=${eqP.toFixed(0)}`;
+            
+            els.qtyText.setAttribute('x', plotEqX);
+            els.qtyText.textContent = `Q*=${eqQ.toFixed(0)}`;
+        }
+
+        // 初始化事件监听
+        Object.values(inputs).forEach(input => {
+            input.addEventListener('input', updateChart);
+        });
+
+        // 首次绘制
+        updateChart();
+
+    </script>
+</body>
+</html>
