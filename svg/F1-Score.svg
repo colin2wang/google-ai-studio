@@ -1,0 +1,19 @@
+<svg width="600" height="200" xmlns="http://www.w3.org/2000/svg">
+<rect width="100%" height="100%" fill="#fff" rx="10" ry="10"/>
+<text x="300" y="30" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">F1-Score: 精确率与召回率的平衡</text>
+<!-- Seesaw Base -->
+<polygon points="290,150 310,150 300,130" fill="#555"/>
+<line x1="100" y1="130" x2="500" y2="130" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+<!-- Left Weight (Precision) -->
+<rect x="120" y="80" width="60" height="50" fill="#007bff" rx="5"/>
+<text x="150" y="110" font-family="Arial" font-size="14" fill="white" text-anchor="middle" font-weight="bold">Precision</text>
+<!-- Right Weight (Recall) -->
+<rect x="420" y="80" width="60" height="50" fill="#28a745" rx="5"/>
+<text x="450" y="110" font-family="Arial" font-size="14" fill="white" text-anchor="middle" font-weight="bold">Recall</text>
+<!-- F1 Indicator -->
+<circle cx="300" cy="130" r="25" fill="#ffc107" stroke="#333" stroke-width="2"/>
+<text x="300" y="135" font-family="Arial" font-size="14" fill="#333" text-anchor="middle" font-weight="bold">F1</text>
+<!-- Explanation Text -->
+<text x="300" y="180" font-family="Arial" font-size="12" fill="#666" text-anchor="middle">F1是两者的调和平均数：2*(P*R)/(P+R)。</text>
+<text x="300" y="195" font-family="Arial" font-size="12" fill="#dc3545" text-anchor="middle">任何一个为0，F1即为0（短板效应）。</text>
+</svg>

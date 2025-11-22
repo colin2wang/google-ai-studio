@@ -1,0 +1,32 @@
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+<rect width="100%" height="100%" fill="#fdfdfd" rx="10" ry="10"/>
+<text x="300" y="30" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">AUC-ROC 曲线图</text>
+<!-- Graph Area -->
+<g transform="translate(60, 320) scale(1, -1)">
+<!-- Grid lines -->
+<line x1="0" y1="0" x2="400" y2="0" stroke="#333" stroke-width="2"/> <!-- X Axis -->
+<line x1="0" y1="0" x2="0" y2="250" stroke="#333" stroke-width="2"/> <!-- Y Axis -->
+<!-- Random Guess Line (Diagonal) -->
+<line x1="0" y1="0" x2="400" y2="250" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5"/>
+
+<!-- ROC Curve (Good Model) -->
+<path d="M0,0 Q50,200 400,250" fill="none" stroke="#e83e8c" stroke-width="4"/>
+
+<!-- Area Under Curve (AUC) Shading -->
+<path d="M0,0 Q50,200 400,250 L400,0 Z" fill="#e83e8c" opacity="0.1"/>
+</g>
+<!-- Labels -->
+<text x="260" y="360" font-family="Arial" font-size="12" fill="#333" font-weight="bold">FPR (假阳性率) - 误报率</text>
+<text x="20" y="200" font-family="Arial" font-size="12" fill="#333" font-weight="bold" transform="rotate(-90 20,200)">TPR (真阳性率) - 召回率</text>
+<!-- Annotations -->
+<text x="320" y="200" font-family="Arial" font-size="12" fill="#999" transform="rotate(-32)">随机猜测 (AUC=0.5)</text>
+<rect x="120" y="100" width="220" height="80" fill="white" stroke="#ddd" rx="5" opacity="0.9"/>
+<circle cx="135" cy="120" r="5" fill="#e83e8c"/>
+<text x="150" y="125" font-family="Arial" font-size="14" fill="#333" font-weight="bold">AUC (曲线下面积)</text>
+<text x="150" y="145" font-family="Arial" font-size="12" fill="#555">AUC = 1.0 (完美分类)</text>
+<text x="150" y="160" font-family="Arial" font-size="12" fill="#555">AUC = 0.8 (优秀)</text>
+<text x="150" y="175" font-family="Arial" font-size="12" fill="#555">AUC = 0.5 (瞎猜/扔硬币)</text>
+<!-- Points -->
+<text x="480" y="330" font-family="Arial" font-size="10">0</text>
+<text x="480" y="80" font-family="Arial" font-size="10">1</text>
+</svg>

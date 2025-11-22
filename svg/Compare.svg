@@ -1,0 +1,58 @@
+<svg width="600" height="450" xmlns="http://www.w3.org/2000/svg">
+<rect width="100%" height="100%" fill="#ffffff" rx="10" ry="10" stroke="#ddd"/>
+<!-- Title -->
+<text x="300" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">图解：准确率、精确率与召回率</text>
+<!-- Legend -->
+<circle cx="180" cy="60" r="6" fill="#28a745" /> <text x="195" y="65" font-family="Arial" font-size="12">正样本(好人)</text>
+<circle cx="300" cy="60" r="6" fill="#dc3545" /> <text x="315" y="65" font-family="Arial" font-size="12">负样本(坏人)</text>
+<rect x="380" y="55" width="15" height="10" fill="none" stroke="#007bff" stroke-width="2"/> <text x="405" y="65" font-family="Arial" font-size="12">模型预测为正(渔网)</text>
+<!-- Visualization Area -->
+<g transform="translate(50, 80)">
+<!-- Universe -->
+<rect x="0" y="0" width="200" height="200" fill="#f4f4f4" rx="10"/>
+<text x="100" y="190" font-family="Arial" font-size="12" fill="#999" text-anchor="middle">全部样本池</text>
+<!-- Dots: Positives (Green) -->
+  <!-- Inside Circle (TP) -->
+  <circle cx="80" cy="80" r="5" fill="#28a745" />
+  <circle cx="95" cy="90" r="5" fill="#28a745" />
+  <circle cx="70" cy="100" r="5" fill="#28a745" />
+  <!-- Outside Circle (FN) -->
+  <circle cx="150" cy="50" r="5" fill="#28a745" opacity="0.7"/>
+  <circle cx="170" cy="150" r="5" fill="#28a745" opacity="0.7"/>
+  <circle cx="40" cy="160" r="5" fill="#28a745" opacity="0.7"/>
+
+  <!-- Dots: Negatives (Red) -->
+  <!-- Inside Circle (FP) -->
+  <circle cx="110" cy="80" r="5" fill="#dc3545" />
+  <circle cx="90" cy="115" r="5" fill="#dc3545" />
+  <!-- Outside Circle (TN) -->
+  <circle cx="30" cy="40" r="5" fill="#dc3545" opacity="0.7"/>
+  <circle cx="160" cy="180" r="5" fill="#dc3545" opacity="0.7"/>
+  <circle cx="180" cy="30" r="5" fill="#dc3545" opacity="0.7"/>
+  <circle cx="20" cy="100" r="5" fill="#dc3545" opacity="0.7"/>
+
+  <!-- Prediction Circle -->
+  <circle cx="90" cy="95" r="50" fill="none" stroke="#007bff" stroke-width="3" stroke-dasharray="5,5"/>
+  <text x="90" y="35" font-family="Arial" font-size="12" fill="#007bff" text-anchor="middle" font-weight="bold">模型预测范围</text>
+</g>
+<!-- Explanations Side by Side -->
+<g transform="translate(270, 80)">
+<!-- Accuracy -->
+  <text x="0" y="20" font-family="Arial" font-size="16" font-weight="bold" fill="#333">1. 准确率 (Accuracy)</text>
+  <text x="0" y="40" font-family="Arial" font-size="12" fill="#555">整体猜对了多少？</text>
+  <text x="0" y="60" font-family="Arial" font-size="12" fill="#333">公式 = (3绿圈内 + 4红圈外) / 总数13</text>
+  <text x="0" y="75" font-family="Arial" font-size="11" fill="#dc3545">缺陷：如果全是红球，猜全红准确率也很高。</text>
+
+  <!-- Precision -->
+  <text x="0" y="110" font-family="Arial" font-size="16" font-weight="bold" fill="#333">2. 精确率 (Precision)</text>
+  <text x="0" y="130" font-family="Arial" font-size="12" fill="#555">"网里的鱼，纯度多高？"</text>
+  <text x="0" y="150" font-family="Arial" font-size="12" fill="#333">公式 = 3绿(圈内) / 5个(圈内总数)</text>
+  <text x="0" y="165" font-family="Arial" font-size="11" fill="#007bff">场景：宁缺毋滥（如：判刑、垃圾邮件）</text>
+
+  <!-- Recall -->
+  <text x="0" y="200" font-family="Arial" font-size="16" font-weight="bold" fill="#333">3. 召回率 (Recall)</text>
+  <text x="0" y="220" font-family="Arial" font-size="12" fill="#555">"池子里的鱼，捞起来多少？"</text>
+  <text x="0" y="240" font-family="Arial" font-size="12" fill="#333">公式 = 3绿(圈内) / 6绿(总共有6条鱼)</text>
+  <text x="0" y="255" font-family="Arial" font-size="11" fill="#28a745">场景：宁错杀不放过（如：地震、癌症）</text>
+</g>
+</svg>

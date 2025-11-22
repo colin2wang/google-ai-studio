@@ -1,0 +1,35 @@
+<svg width="600" height="350" xmlns="http://www.w3.org/2000/svg">
+<!-- Background -->
+<rect width="100%" height="100%" fill="#f9f9f9" rx="10" ry="10"/>
+<!-- Title -->
+<text x="300" y="40" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#333">混淆矩阵 (Confusion Matrix)</text>
+<!-- Axis Labels -->
+<text x="300" y="70" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#555">模型预测 (Predicted)</text>
+<text x="40" y="215" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#555" transform="rotate(-90 40,215)">真实情况 (Actual)</text>
+<!-- Headers -->
+<text x="200" y="95" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#555">正 (Positive)</text>
+<text x="400" y="95" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#555">负 (Negative)</text>
+<text x="85" y="160" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#555">正 (Pos)</text>
+<text x="85" y="270" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#555">负 (Neg)</text>
+<!-- Grid 2x2 -->
+<!-- TP Box -->
+<rect x="110" y="110" width="190" height="100" fill="#d4edda" stroke="#28a745" stroke-width="2"/>
+<text x="205" y="150" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#155724">TP (真阳性)</text>
+<text x="205" y="175" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#155724">预测对，真实对</text>
+<text x="205" y="190" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#155724">"恭喜，抓到了坏人"</text>
+<!-- FN Box -->
+<rect x="310" y="110" width="190" height="100" fill="#f8d7da" stroke="#dc3545" stroke-width="2"/>
+<text x="405" y="150" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#721c24">FN (假阴性)</text>
+<text x="405" y="175" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#721c24">预测负，真实正</text>
+<text x="405" y="190" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#721c24">"漏网之鱼"</text>
+<!-- FP Box -->
+<rect x="110" y="220" width="190" height="100" fill="#fff3cd" stroke="#ffc107" stroke-width="2"/>
+<text x="205" y="260" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#856404">FP (假阳性)</text>
+<text x="205" y="285" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#856404">预测正，真实负</text>
+<text x="205" y="300" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#856404">"误报，冤枉好人"</text>
+<!-- TN Box -->
+<rect x="310" y="220" width="190" height="100" fill="#d1ecf1" stroke="#17a2b8" stroke-width="2"/>
+<text x="405" y="260" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#0c5460">TN (真阴性)</text>
+<text x="405" y="285" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#0c5460">预测负，真实负</text>
+<text x="405" y="300" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#0c5460">"岁月静好"</text>
+</svg>
